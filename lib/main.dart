@@ -1,4 +1,5 @@
 import 'package:ecell_register/AddUser.dart';
+import 'package:ecell_register/CurrentContests.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: AddUser('Priyam', 'Seth', 15),
+        child: CurrentContests(),
       ),
     );
   }
