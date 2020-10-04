@@ -12,6 +12,8 @@ class CurrentContests extends StatefulWidget {
 class _CurrentContestsState extends State<CurrentContests> {
   @override
   Widget build(BuildContext context) {
+    // First create a query for only the open contests
+    // 'open' or 'close'
     Query contests = FirebaseFirestore.instance
         .collection('contests')
         .where('status', isEqualTo: 'open');
@@ -26,11 +28,19 @@ class _CurrentContestsState extends State<CurrentContests> {
         if (snapshot.connectionState == ConnectionState.done) {
           return new ListView(
             children: snapshot.data.docs.map((DocumentSnapshot document) {
+              // Required variables from the firebase
+              String eventName = document.data()['eventName'];
+              int minTeamSize = document.data()['minTeamSize'];
+              int maxTeamSize = document.data()['maxTeamSize'];
+
               return new ListTile(
-                title: new Text(document.data()['status']),
-                subtitle: new Text(document.data()['eventName']),
+                title: new Text(eventName),
+                subtitle: new Text("Team Size " +
+                    minTeamSize.toString() +
+                    " - " +
+                    maxTeamSize.toString()),
                 onTap: () {
-                  final snackBar = SnackBar(content: Text('Tap'));
+                  final snackBar = SnackBar(content: Text('tap'));
                   Scaffold.of(context).showSnackBar(snackBar);
                 },
               );
