@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecell_register/RegisterTeam.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,7 @@ class _CurrentContestsState extends State<CurrentContests> {
               String eventName = document.data()['eventName'];
               int minTeamSize = document.data()['minTeamSize'];
               int maxTeamSize = document.data()['maxTeamSize'];
+              String eventCode = document.id;
 
               return new ListTile(
                 title: new Text(eventName),
@@ -40,8 +42,18 @@ class _CurrentContestsState extends State<CurrentContests> {
                     " - " +
                     maxTeamSize.toString()),
                 onTap: () {
-                  final snackBar = SnackBar(content: Text('tap'));
-                  Scaffold.of(context).showSnackBar(snackBar);
+                  // Here on Tap, start an new navigation to Register Team
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegisterTeam(
+                        minTeamSize: minTeamSize,
+                        maxTeamSize: maxTeamSize,
+                        eventName: eventName,
+                        eventCode: eventCode,
+                      ),
+                    ),
+                  );
                 },
               );
             }).toList(),
