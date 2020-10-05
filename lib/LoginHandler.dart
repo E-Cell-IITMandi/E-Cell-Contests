@@ -74,10 +74,11 @@ class _LoginHandlerState extends State<LoginHandler> {
     });
 
     print("see");
-    if (isSignedIn) {
+    if (false) {
       // if (false) {
       // if so, return the current user
       print("see here");
+
       user = _auth.currentUser;
       print(user.displayName);
       print("User is signed in");
