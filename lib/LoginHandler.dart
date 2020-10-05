@@ -40,7 +40,7 @@ class _LoginHandlerState extends State<LoginHandler> {
   Future _checkIfAlreadySignedIn() async {
     // Making it by default to sign in on it's own
 
-    onGoogleSignIn(context);
+    // onGoogleSignIn(context);
 
     // User user;
     // // flag to check whether we're signed in already
