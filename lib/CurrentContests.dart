@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecell_register/LoginHandler.dart';
 import 'package:ecell_register/RegisterTeam.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:ecell_register/Schema/Contest.dart';
 import 'package:flutter/material.dart';
 
 class CurrentContests extends StatefulWidget {
@@ -34,6 +35,8 @@ class _CurrentContestsState extends State<CurrentContests> {
               int minTeamSize = document.data()['minTeamSize'];
               int maxTeamSize = document.data()['maxTeamSize'];
               String eventCode = document.id;
+              Contest currentContest =
+                  new Contest(minTeamSize, maxTeamSize, eventName, eventCode);
 
               return new ListTile(
                 title: new Text(eventName),
@@ -46,11 +49,8 @@ class _CurrentContestsState extends State<CurrentContests> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RegisterTeam(
-                        minTeamSize: minTeamSize,
-                        maxTeamSize: maxTeamSize,
-                        eventName: eventName,
-                        eventCode: eventCode,
+                      builder: (context) => LoginHandler(
+                        contest: currentContest,
                       ),
                     ),
                   );

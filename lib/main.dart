@@ -1,5 +1,7 @@
 import 'package:ecell_register/AddUser.dart';
 import 'package:ecell_register/CurrentContests.dart';
+import 'package:ecell_register/LoginHandler.dart';
+import 'package:ecell_register/RegisterTeam.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: CurrentContests(),
+        // child: LoginHandler(),
       ),
     );
   }
