@@ -165,7 +165,7 @@ class _LoginHandlerState extends State<LoginHandler> {
                   Icon(Icons.account_circle, color: Colors.white),
                   SizedBox(width: 10),
                   Text(
-                    "Login with Google",
+                    "Register for the Event",
                     style: TextStyle(color: Colors.white),
                   ),
                 ],

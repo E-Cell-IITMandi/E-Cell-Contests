@@ -91,9 +91,9 @@ class _RegisterTeamState extends State<RegisterTeam> {
           )
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           child: Column(
             children: [
               Container(
@@ -149,9 +149,9 @@ class _RegisterTeamState extends State<RegisterTeam> {
       key: _formKey,
       child: Column(
         children: [
-          MyFormField("Enter Team Name", _controllerMembersName[0]),
-          MyFormField("Enter Phone number", _controllerTeamPhone),
-          DynamicInputs(),
+          myFormField("Enter Team Name", _controllerTeamName),
+          myFormField("Enter Phone number", _controllerTeamPhone),
+          dynamicInputs(),
           Container(
             padding: EdgeInsets.all(16.0),
             child: RaisedButton(
@@ -177,30 +177,34 @@ class _RegisterTeamState extends State<RegisterTeam> {
     );
   }
 
-  Widget DynamicInputs() {
+  Widget dynamicInputs() {
     List<Widget> list = new List();
+
+    // print("Max team size" + widget.contest.maxTeamSize.toString());
+    // print("Min team size" + widget.contest.minTeamSize.toString());
+    int minTeamSize = widget.contest.minTeamSize;
 
     for (int i = 0; i < widget.contest.maxTeamSize; i++) {
       list.add(
-        MyFormField(
-          "Member " + i.toString() + " Name",
+        myFormField(
+          "Member " + (i + 1).toString() + " Name",
           _controllerMembersName[i],
+          i < minTeamSize ? false : true,
         ),
       );
       list.add(
-        MyFormField(
-          "Member " + i.toString() + " Roll Number",
+        myFormField(
+          "Member " + (i + 1).toString() + " Roll Number",
           _controllerMemberRoll[i],
+          i < minTeamSize ? false : true,
         ),
       );
     }
 
-    return ListView(
-      children: list,
-    );
+    return Column(children: list);
   }
 
-  Widget MyFormField(String hint, TextEditingController controller,
+  Widget myFormField(String hint, TextEditingController controller,
       [bool isEmptyAllowed = false]) {
     var validator = (String value) {
       return value.isEmpty ? 'This is required!' : null;
