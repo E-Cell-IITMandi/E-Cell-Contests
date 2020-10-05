@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "93109878103",
+    "firebase_url": "https://e-cell-iitmandi.firebaseio.com",
+    "project_id": "e-cell-iitmandi",
+    "storage_bucket": "e-cell-iitmandi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93109878103:android:a6efe6109d8cde77c2d212",
+        "android_client_info": {
+          "package_name": "com.priyam.ecell_register"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93109878103-0mntt17fb7gur5cvvn1ceccdjaj5dt9t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.priyam.ecell_register",
+            "certificate_hash": "27476be812cac78d712e7fc489f4c091672a0e30"
+          }
+        },
+        {
+          "client_id": "93109878103-n7qt6881u8h4b0s5nspagqjdr96so39j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwTfCaAX30tm3qQEhtlEpGrmOiYLCBM_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93109878103-n7qt6881u8h4b0s5nspagqjdr96so39j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

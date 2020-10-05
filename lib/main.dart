@@ -5,14 +5,16 @@ import 'package:ecell_register/RegisterTeam.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+// void main() {
+//   runApp(MyApp());
+// }
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +26,12 @@ class MyApp extends StatelessWidget {
       ),
       home: FutureBuilder(
         // Initialize FlutterFire:
-        future: _initialization,
+        future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           // Check for errors
-          // if (snapshot.hasError) {
-          //   return SomethingWentWrong();
-          // }
+          if (snapshot.hasError) {
+            return Text('Helo' + snapshot.error.toString());
+          }
 
           // Once complete, show your application
           if (snapshot.connectionState == ConnectionState.done) {
@@ -69,3 +71,39 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+// class App extends StatelessWidget {
+//   // Create the initialization Future outside of `build`:
+//   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Ecell Register',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
+//       ),
+//       home: FutureBuilder(
+//         // Initialize FlutterFire:
+//         future: Firebase.initializeApp(),
+//         builder: (context, snapshot) {
+//           // Check for errors
+//           // if (snapshot.hasError) {
+//           //   return Text(snapshot.error.toString());
+//           // }
+
+//           // Once complete, show your application
+//           if (snapshot.connectionState == ConnectionState.done) {
+//             return MyHomePage(
+//               title: 'Hello World',
+//             );
+//           }
+
+//           // Otherwise, show something whilst waiting for initialization to complete
+//           // return Text('loading');
+//         },
+//       ),
+//     );
+//   }
+// }
