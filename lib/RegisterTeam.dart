@@ -72,6 +72,71 @@ class _RegisterTeamState extends State<RegisterTeam> {
     super.dispose();
   }
 
+  _handleFormSubmit(String teamName, String teamPhone, List<String> membersName,
+      List<String> membersRoll) {
+    // TODO
+    // check for the values, use the default reference and show a dailog
+
+    _showMyDialog(
+        'In Progress', 'Please Wait', 'Your submission is neing added');
+
+    print("Final submit here -- Check here");
+    print(teamName + teamPhone);
+
+    _docRef
+        .set({
+          "teamName": teamName,
+          "teamPhone": teamPhone,
+          "membersName": membersName,
+          "membersRoll": membersRoll
+        })
+        .then((value) => {Navigator.of(context).pop()})
+        .then(
+          (value) => _showMyDialog(
+              'Successfully Registered',
+              'All the Best for the Event.',
+              "You can still make some changes until the portal get's closed."),
+        )
+        .catchError(
+          (err) => _showMyDialog(
+            'Failed',
+            'Please report to E-Cell!',
+            err.toString(),
+          ),
+        );
+  }
+
+  Future<void> _showMyDialog(String heading, String text1, String text2) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(heading),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 4.0),
+                  child: Text(text1),
+                ),
+                Text(text2),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,6 +228,12 @@ class _RegisterTeamState extends State<RegisterTeam> {
                   print("Handle form submit");
                   print("Check team name" + _controllerTeamName.text);
                   print("Check team phone" + _controllerTeamPhone.text);
+                  _handleFormSubmit(
+                    _controllerTeamName.text,
+                    _controllerTeamPhone.text,
+                    ["Priyam Seth", "P2", "P3"],
+                    ["b19188", "b19186", "b19189"],
+                  );
                   // Scaffold.of(context)
                   //     .showSnackBar(SnackBar(content: Text('Hello')));
                   // Scaffold.of(context).showSnackBar(
@@ -189,14 +260,16 @@ class _RegisterTeamState extends State<RegisterTeam> {
         myFormField(
           "Member " + (i + 1).toString() + " Name",
           _controllerMembersName[i],
-          i < minTeamSize ? false : true,
+          // i < minTeamSize ? false : true,
+          i < minTeamSize ? true : true,
         ),
       );
       list.add(
         myFormField(
           "Member " + (i + 1).toString() + " Roll Number",
           _controllerMemberRoll[i],
-          i < minTeamSize ? false : true,
+          // i < minTeamSize ? false : true,
+          i < minTeamSize ? true : true,
         ),
       );
     }
