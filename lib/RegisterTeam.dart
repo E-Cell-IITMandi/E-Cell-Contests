@@ -228,16 +228,28 @@ class _RegisterTeamState extends State<RegisterTeam> {
                   print("Handle form submit");
                   print("Check team name" + _controllerTeamName.text);
                   print("Check team phone" + _controllerTeamPhone.text);
+
+                  List<String> membersRoll = [];
+                  List<String> membersName = [];
+
+                  for (int i = 0; i < widget.contest.maxTeamSize; i++) {
+                    if (!((_controllerMembersName[i].text.isEmpty) ||
+                        (_controllerMemberRoll[i].text.isEmpty))) {
+                      membersName.add(_controllerMembersName[i].text);
+                      membersRoll.add(_controllerMemberRoll[i].text);
+                    }
+                  }
+
+                  print("Check here");
+                  print(membersRoll.toString());
+                  print(membersName.toString());
+
                   _handleFormSubmit(
                     _controllerTeamName.text,
                     _controllerTeamPhone.text,
-                    ["Priyam Seth", "P2", "P3"],
-                    ["b19188", "b19186", "b19189"],
+                    membersName,
+                    membersRoll,
                   );
-                  // Scaffold.of(context)
-                  //     .showSnackBar(SnackBar(content: Text('Hello')));
-                  // Scaffold.of(context).showSnackBar(
-                  //     SnackBar(content: Text('Processing Data')));
                 }
               },
               child: Text('Submit'),
@@ -260,16 +272,16 @@ class _RegisterTeamState extends State<RegisterTeam> {
         myFormField(
           "Member " + (i + 1).toString() + " Name",
           _controllerMembersName[i],
-          // i < minTeamSize ? false : true,
-          i < minTeamSize ? true : true,
+          i < minTeamSize ? false : true,
+          // i < minTeamSize ? true : true,
         ),
       );
       list.add(
         myFormField(
           "Member " + (i + 1).toString() + " Roll Number",
           _controllerMemberRoll[i],
-          // i < minTeamSize ? false : true,
-          i < minTeamSize ? true : true,
+          i < minTeamSize ? false : true,
+          // i < minTeamSize ? true : true,
         ),
       );
     }
