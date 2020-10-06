@@ -8,7 +8,7 @@ class Team {
   @override
   String toString() {
     // TODO: implement toString
-    return 'teamName: ' +
+    return 'teamName:' +
         teamName +
         " teamEmail:" +
         teamEmail +
@@ -26,13 +26,13 @@ class Team {
   /// It does the prvious checks and do the work accordingly
   /// Regarding [email] and [uid] they should be taken from the firebase auth
   Team.fromFirebase(
-      Map<String, dynamic> fireTeam, String email, String userId) {
+      Map<String, dynamic> fireTeam, String email, String userId, maxTeamSize) {
     // Here do any thing needed as cleaning, etc
 
     teamName = '';
     teamPhone = '';
-    membersName = [];
-    membersRoll = [];
+    membersName = List.generate(maxTeamSize, (index) => '');
+    membersRoll = List.generate(maxTeamSize, (index) => '');
     teamEmail = email;
     uid = userId;
 
@@ -45,11 +45,17 @@ class Team {
     }
 
     if (fireTeam.containsKey('membersName')) {
-      membersName = fireTeam['membersName'];
+      List names = fireTeam['membersName'];
+      for (int i = 0; i < names.length; i++) {
+        membersName[i] = names[i];
+      }
     }
 
     if (fireTeam.containsKey('membersRoll')) {
-      membersRoll = fireTeam['membersRoll'];
+      List rolls = fireTeam['membersRoll'];
+      for (int i = 0; i < rolls.length; i++) {
+        membersRoll[i] = rolls[i];
+      }
     }
   }
 }
