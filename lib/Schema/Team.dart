@@ -1,9 +1,10 @@
 class Team {
   String teamName, teamEmail, teamPhone, uid;
   List membersName, membersRoll; // This should be array actually to be precise
+  Map<String, String> addFieldsDict;
 
   Team(this.teamName, this.teamEmail, this.teamPhone, this.membersName,
-      this.membersRoll, this.uid);
+      this.addFieldsDict, this.membersRoll, this.uid);
 
   @override
   String toString() {
@@ -19,7 +20,9 @@ class Team {
         " membersRoll:" +
         membersRoll.toString() +
         " uid:" +
-        uid;
+        uid +
+        "addFields: " +
+        addFieldsDict.toString();
   }
 
   /// Here pass the database object got from the firebase to create an object
@@ -35,6 +38,7 @@ class Team {
     membersRoll = List.generate(maxTeamSize, (index) => '');
     teamEmail = email;
     uid = userId;
+    addFieldsDict = {};
 
     if (fireTeam.containsKey('teamName')) {
       teamName = fireTeam['teamName'];
@@ -42,6 +46,16 @@ class Team {
 
     if (fireTeam.containsKey('teamPhone')) {
       teamPhone = fireTeam['teamPhone'];
+    }
+
+    if (fireTeam.containsKey('addFieldsDict')) {
+      // Don't know much but firebase gives String, Dyanmic
+      // And we need String, String
+      // So we are going to type cast it
+      Map<String, dynamic> tempDict = fireTeam['addFieldsDict'];
+      tempDict.forEach((key, value) {
+        addFieldsDict[key] = value.toString();
+      });
     }
 
     if (fireTeam.containsKey('membersName')) {

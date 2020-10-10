@@ -34,9 +34,18 @@ class _CurrentContestsState extends State<CurrentContests> {
               String eventName = document.data()['eventName'];
               int minTeamSize = document.data()['minTeamSize'];
               int maxTeamSize = document.data()['maxTeamSize'];
+              List addFields = document.data().containsKey('addFields')
+                  ? document.data()['addFields']
+                  : [];
+
               String eventCode = document.id;
-              Contest currentContest =
-                  new Contest(minTeamSize, maxTeamSize, eventName, eventCode);
+              Contest currentContest = new Contest(
+                minTeamSize,
+                maxTeamSize,
+                eventName,
+                eventCode,
+                addFields,
+              );
 
               return new ListTile(
                 title: new Text(eventName),

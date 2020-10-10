@@ -36,6 +36,7 @@ class _RegisterTeamState extends State<RegisterTeam> {
 
   TextEditingController _controllerTeamName = TextEditingController();
   TextEditingController _controllerTeamPhone = TextEditingController();
+  List<TextEditingController> _controllerOptionals;
   List<TextEditingController> _controllerMembersName;
   List<TextEditingController> _controllerMemberRoll;
 
@@ -50,6 +51,11 @@ class _RegisterTeamState extends State<RegisterTeam> {
     _docRef = _registrationsRef.doc(widget.auth.currentUser.uid);
 
     // Initialising dynamic controllers
+    _controllerOptionals = List<TextEditingController>.generate(
+      widget.contest.addFields.length,
+      (index) => TextEditingController(),
+    );
+
     _controllerMembersName = List<TextEditingController>.generate(
       widget.contest.maxTeamSize,
       (index) => TextEditingController(),
@@ -72,9 +78,10 @@ class _RegisterTeamState extends State<RegisterTeam> {
   }
 
   _handleFormSubmit(String teamName, String teamPhone, List<String> membersName,
-      List<String> membersRoll) {
+      List<String> membersRoll, Map<String, String> addFieldsDict) {
     // TODO
     // check for the values, use the default reference and show a dailog
+    // addFields will be added in the addFieldsParameter
 
     _showMyDialog(
         'In Progress', 'Please Wait', 'Your submission is neing added');
@@ -88,7 +95,8 @@ class _RegisterTeamState extends State<RegisterTeam> {
           "teamPhone": teamPhone,
           "membersName": membersName,
           "membersRoll": membersRoll,
-          "teamEmail": widget.auth.currentUser.email
+          "teamEmail": widget.auth.currentUser.email,
+          "addFieldsDict": addFieldsDict,
         })
         .then((value) => {Navigator.of(context).pop()})
         .then(
@@ -206,6 +214,8 @@ class _RegisterTeamState extends State<RegisterTeam> {
                     _controllerTeamPhone =
                         TextEditingController(text: _team.teamPhone);
 
+                    // Getting previous data from addFields to be done
+
                     // Initialising dynamic controllers
                     _controllerMembersName =
                         List<TextEditingController>.generate(
@@ -264,6 +274,14 @@ class _RegisterTeamState extends State<RegisterTeam> {
 
                   List<String> membersRoll = [];
                   List<String> membersName = [];
+                  Map<String, String> addFieldsDict = {};
+
+                  for (int i = 0; i < widget.contest.addFields.length; i++) {
+                    String key = widget.contest.addFields[i]['key'];
+                    addFieldsDict[key] = _controllerOptionals[i].text;
+
+                    print("adding the field " + _controllerOptionals[i].text);
+                  }
 
                   for (int i = 0; i < widget.contest.maxTeamSize; i++) {
                     if (!((_controllerMembersName[i].text.isEmpty) ||
@@ -277,11 +295,15 @@ class _RegisterTeamState extends State<RegisterTeam> {
                   print(membersRoll.toString());
                   print(membersName.toString());
 
+                  print("Check here the additional fields ");
+                  print(addFieldsDict.toString());
+
                   _handleFormSubmit(
                     _controllerTeamName.text,
                     _controllerTeamPhone.text,
                     membersName,
                     membersRoll,
+                    addFieldsDict,
                   );
                 }
               },
@@ -296,9 +318,31 @@ class _RegisterTeamState extends State<RegisterTeam> {
   Widget dynamicInputs() {
     List<Widget> list = new List();
 
-    // print("Max team size" + widget.contest.maxTeamSize.toString());
-    // print("Min team size" + widget.contest.minTeamSize.toString());
+    print("Max team size" + widget.contest.maxTeamSize.toString());
+    print("Min team size" + widget.contest.minTeamSize.toString());
     int minTeamSize = widget.contest.minTeamSize;
+
+    print("CHERE HERE FOR DYNAMIC DATA");
+    print(widget.contest.toString());
+
+    // SO HERE We will check if addFields will be empty
+    // or something of this sort
+    // [
+    //  { key: secretID, label: "Will be used later" },
+    //  { key: location, label: "Will be like  where you live" }
+    // ]
+    //
+
+    for (int i = 0; i < widget.contest.addFields.length; i++) {
+      String key = widget.contest.addFields[i]['key'];
+      String label = widget.contest.addFields[i]['label'];
+
+      print('creating optional fields');
+      list.add(myFormField(
+        label,
+        _controllerOptionals[i],
+      ));
+    }
 
     for (int i = 0; i < widget.contest.maxTeamSize; i++) {
       list.add(
