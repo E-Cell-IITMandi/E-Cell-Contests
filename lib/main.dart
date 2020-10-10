@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           // Once complete, show your application
           if (snapshot.connectionState == ConnectionState.done) {
             return MyHomePage(
-              title: 'Hello World',
+              title: 'On Going Contests',
             );
           }
 

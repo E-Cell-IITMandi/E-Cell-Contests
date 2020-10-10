@@ -1,8 +1,16 @@
 class Contest {
   int minTeamSize, maxTeamSize;
   String eventName, eventCode;
+  List addFields;
 
-  Contest(this.minTeamSize, this.maxTeamSize, this.eventName, this.eventCode);
+  // Take care for this contrustor where you are using it
+  Contest(
+    this.minTeamSize,
+    this.maxTeamSize,
+    this.eventName,
+    this.eventCode,
+    this.addFields,
+  );
 
   @override
   String toString() {
@@ -14,6 +22,8 @@ class Contest {
         " eventName:" +
         eventName +
         " eventCode:" +
-        eventCode;
+        eventCode +
+        " addField:" +
+        addFields.toString();
   }
 }
