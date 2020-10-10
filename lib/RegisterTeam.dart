@@ -215,6 +215,20 @@ class _RegisterTeamState extends State<RegisterTeam> {
                         TextEditingController(text: _team.teamPhone);
 
                     // Getting previous data from addFields to be done
+                    // Here we will have to loop according to the contest
+                    // parameters As the order of input and this should be same
+                    List addFieldsValue = [];
+                    for (int i = 0; i < widget.contest.addFields.length; i++) {
+                      String fieldDictKey = widget.contest.addFields[i]['key'];
+                      addFieldsValue.add(_team.addFieldsDict[fieldDictKey]);
+                    }
+                    // Initialising addFields Variables
+                    _controllerOptionals = List<TextEditingController>.generate(
+                      addFieldsValue.length,
+                      (index) => TextEditingController(
+                        text: addFieldsValue[index],
+                      ),
+                    );
 
                     // Initialising dynamic controllers
                     _controllerMembersName =
