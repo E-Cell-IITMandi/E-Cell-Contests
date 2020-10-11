@@ -40,6 +40,9 @@ class _RegisterTeamState extends State<RegisterTeam> {
   List<TextEditingController> _controllerMembersName;
   List<TextEditingController> _controllerMemberRoll;
 
+  // Focus Node
+  List<FocusNode> _focusNodes;
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +67,14 @@ class _RegisterTeamState extends State<RegisterTeam> {
     _controllerMemberRoll = List<TextEditingController>.generate(
       widget.contest.maxTeamSize,
       (index) => TextEditingController(),
+    );
+
+    // 2 for name and phone number, additional fields and total maxTeamSize *2
+    int focusNodesLength =
+        2 + widget.contest.addFields.length + widget.contest.maxTeamSize * 2;
+    _focusNodes = List<FocusNode>.generate(
+      focusNodesLength,
+      (index) => FocusNode(),
     );
 
     // print("COMTRolerrs initalised" + _controllerMembersName.toString());
@@ -268,10 +279,14 @@ class _RegisterTeamState extends State<RegisterTeam> {
           myFormField(
             "Enter Team Name",
             _controllerTeamName,
+            isFirst: true, // This is the first field
+            focusTo: _focusNodes[0],
           ),
           myFormField(
             "Enter Phone number",
             _controllerTeamPhone,
+            focusFrom: _focusNodes[0],
+            focusTo: _focusNodes[1],
           ),
           dynamicInputs(),
           Container(
@@ -339,6 +354,9 @@ class _RegisterTeamState extends State<RegisterTeam> {
     print("CHERE HERE FOR DYNAMIC DATA");
     print(widget.contest.toString());
 
+    // Focus comes from 1, so start from that focusFrom: 1
+    int focusCount = 1;
+
     // SO HERE We will check if addFields will be empty
     // or something of this sort
     // [
@@ -355,7 +373,11 @@ class _RegisterTeamState extends State<RegisterTeam> {
       list.add(myFormField(
         label,
         _controllerOptionals[i],
+        focusFrom: _focusNodes[focusCount],
+        focusTo: _focusNodes[focusCount + 1],
       ));
+
+      focusCount += 1;
     }
 
     for (int i = 0; i < widget.contest.maxTeamSize; i++) {
@@ -363,25 +385,36 @@ class _RegisterTeamState extends State<RegisterTeam> {
         myFormField(
           "Member " + (i + 1).toString() + " Name",
           _controllerMembersName[i],
-          i < minTeamSize ? false : true,
+          isEmptyAllowed: i < minTeamSize ? false : true,
           // i < minTeamSize ? true : true,
+          focusFrom: _focusNodes[focusCount],
+          focusTo: _focusNodes[focusCount + 1],
         ),
       );
+
+      focusCount += 1;
+
       list.add(
         myFormField(
           "Member " + (i + 1).toString() + " Roll Number",
           _controllerMemberRoll[i],
-          i < minTeamSize ? false : true,
+          isEmptyAllowed: i < minTeamSize ? false : true,
           // i < minTeamSize ? true : true,
+          focusFrom: _focusNodes[focusCount],
+          focusTo: _focusNodes[focusCount + 1],
         ),
       );
+
+      focusCount += 1;
     }
+
+    print('focusCountGot' + focusCount.toString());
 
     return Column(children: list);
   }
 
   Widget myFormField(String hint, TextEditingController controller,
-      [bool isEmptyAllowed = false]) {
+      {bool isEmptyAllowed = false, isFirst = false, focusFrom, focusTo}) {
     var validator = (String value) {
       return value.isEmpty ? 'This is required!' : null;
     };
@@ -394,6 +427,13 @@ class _RegisterTeamState extends State<RegisterTeam> {
       height: 72.0,
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
+        focusNode: focusFrom,
+        autofocus: isFirst,
+        onFieldSubmitted: (value) {
+          FocusScope.of(context).requestFocus(
+            focusTo,
+          );
+        },
         controller: controller,
         decoration: InputDecoration(
           labelText: hint,
