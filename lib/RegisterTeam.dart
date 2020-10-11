@@ -391,12 +391,12 @@ class _RegisterTeamState extends State<RegisterTeam> {
     }
 
     return Container(
-      height: 60,
+      height: 72.0,
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
-          hintText: hint,
+          labelText: hint,
           counterText: "",
         ),
         validator: validator,
