@@ -1,7 +1,5 @@
-import 'package:ecell_register/AddUser.dart';
+import 'package:ecell_register/About.dart';
 import 'package:ecell_register/CurrentContests.dart';
-import 'package:ecell_register/LoginHandler.dart';
-import 'package:ecell_register/RegisterTeam.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -64,11 +62,50 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: PopupMenuButton(
+                onSelected: (value) {
+                  if (value == 0) {
+                    print('About Us Screen');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => About(),
+                      ),
+                    );
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      value: 0,
+                      child: _menuItem(context),
+                    )
+                  ];
+                },
+              )),
+        ],
       ),
       body: Center(
         child: CurrentContests(),
         // child: LoginHandler(),
       ),
+    );
+  }
+
+  Widget _menuItem(BuildContext context, {icon = Icons.info, text: "About"}) {
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsets.only(right: 8.0),
+          child: Icon(icon),
+        ),
+        Container(
+          child: Text(text),
+        )
+      ],
     );
   }
 }
