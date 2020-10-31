@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecell_register/LoginHandler.dart';
-import 'package:ecell_register/RegisterTeam.dart';
 import 'package:ecell_register/Schema/Contest.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_grid/responsive_grid.dart';
 
 class CurrentContests extends StatefulWidget {
   CurrentContests({Key key}) : super(key: key);
