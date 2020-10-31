@@ -1,3 +1,7 @@
+import 'dart:html';
+import 'dart:math';
+import 'dart:ui' as ui;
+
 import 'package:ecell_register/RegisterTeam.dart';
 import 'package:ecell_register/Schema/Contest.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +11,9 @@ import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 // https://medium.com/flutter-community/authenticate-with-a-gmail-account-in-your-flutter-apps-using-firebase-authentication-9cbf95796157
+
+// This will not only work on the web, for android this page has to be somewhat different
+////////////////////////////////////////////////////////////
 
 class LoginHandler extends StatefulWidget {
   Contest contest;
@@ -21,10 +28,34 @@ class _LoginHandlerState extends State<LoginHandler> {
   FirebaseAuth _auth;
   bool isUserSignedIn = false;
 
+  final IFrameElement _iframeElement = IFrameElement();
+  Widget _iframeWidget;
+
   @override
   void initState() {
     super.initState();
     initApp();
+
+    _iframeElement.height = '50';
+    _iframeElement.width = '50';
+    _iframeElement.src = widget.contest.websiteUrl;
+
+    print('Check here' + widget.contest.toString());
+
+    _iframeElement.style.border = 'none';
+
+    String randId = 'ifr' + Random.secure().nextInt(1000).toString();
+
+    // ignore: undefined_prefixed_name
+    ui.platformViewRegistry.registerViewFactory(
+      randId,
+      (int viewId) => _iframeElement,
+    );
+
+    _iframeWidget = HtmlElementView(
+      key: UniqueKey(),
+      viewType: randId,
+    );
   }
 
   void initApp() async {
@@ -145,35 +176,64 @@ class _LoginHandlerState extends State<LoginHandler> {
         title: Text("Sign In to Google"),
       ),
       body: Container(
-        padding: EdgeInsets.all(50),
         child: Align(
           alignment: Alignment.center,
-          child: FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            onPressed: () {
-              onGoogleSignIn(context);
-            },
-            color: Colors.blueAccent,
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.account_circle, color: Colors.white),
-                  SizedBox(width: 10),
-                  Text(
-                    "Register for the Event",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          child: _buildBody(),
+          // child: _est(),
         ),
       ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Column(
+      children: [
+        Expanded(child: _iframeWidget),
+        Container(
+          decoration: new BoxDecoration(
+            color: Colors.black12,
+          ),
+          padding: EdgeInsets.symmetric(
+            vertical: 32.0,
+            horizontal: 16.0,
+          ),
+          child: _registerButton(),
+        ),
+      ],
+    );
+  }
+
+  FlatButton _registerButton() {
+    return FlatButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      onPressed: () {
+        onGoogleSignIn(context);
+      },
+      color: Colors.blueAccent,
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.account_circle, color: Colors.white),
+            SizedBox(width: 10),
+            Text(
+              "Register for the Event",
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _est() {
+    return SizedBox(
+      height: 200.0,
+      child: _iframeWidget,
     );
   }
 }
