@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           // Once complete, show your application
           if (snapshot.connectionState == ConnectionState.done) {
             return MyHomePage(
-              title: 'On Going Contests',
+              title: 'E-Cell Contests',
             );
           }
 
@@ -61,7 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+        ),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
