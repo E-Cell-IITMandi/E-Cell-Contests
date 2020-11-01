@@ -57,33 +57,18 @@ class _CurrentContestsState extends State<CurrentContests> {
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         // Required variables from the firebase
-                        String eventName = document.data()['eventName'];
-                        int minTeamSize = document.data()['minTeamSize'];
-                        int maxTeamSize = document.data()['maxTeamSize'];
-                        List addFields =
-                            document.data().containsKey('addFields')
-                                ? document.data()['addFields']
-                                : [];
 
-                        String eventCode = document.id;
-                        String posterUrl = document
-                                .data()
-                                .containsKey('posterUrl')
-                            ? document.data()['posterUrl']
-                            : 'https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/bestposters2016-doctorstrange-shipper-700x1023.jpg';
-
-                        Contest currentContest = new Contest(
-                          minTeamSize,
-                          maxTeamSize,
-                          eventName,
-                          eventCode,
-                          addFields,
-                          posterUrl,
-                        );
+                        Contest currentContest =
+                            new Contest.fromFirebase(document);
 
                         return InkWell(
-                          child: eventTile(context, eventName, posterUrl,
-                              minTeamSize, maxTeamSize),
+                          child: eventTile(
+                            context,
+                            currentContest.eventName,
+                            currentContest.posterUrl,
+                            currentContest.minTeamSize,
+                            currentContest.maxTeamSize,
+                          ),
                           onTap: () {
                             // Here on Tap, start an new navigation to Register Team
                             Navigator.push(

@@ -13,6 +13,21 @@ class Contest {
     this.posterUrl,
   );
 
+  /// Pass the firebase document you got
+  Contest.fromFirebase(document) {
+    eventName = document.data()['eventName'];
+    minTeamSize = document.data()['minTeamSize'];
+    maxTeamSize = document.data()['maxTeamSize'];
+    addFields = document.data().containsKey('addFields')
+        ? document.data()['addFields']
+        : [];
+
+    eventCode = document.id;
+    posterUrl = document.data().containsKey('posterUrl')
+        ? document.data()['posterUrl']
+        : 'https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/bestposters2016-doctorstrange-shipper-700x1023.jpg';
+  }
+
   @override
   String toString() {
     return 'minTeamSize: ' +
