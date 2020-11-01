@@ -1,5 +1,6 @@
 import 'package:ecell_register/About.dart';
 import 'package:ecell_register/CurrentContests.dart';
+import 'package:ecell_register/DetailScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,32 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       //   visualDensity: VisualDensity.adaptivePlatformDensity,
       // ),
+      onGenerateRoute: (settings) {
+        if (settings.name == '/about') {
+          return MaterialPageRoute(builder: (context) => About());
+        }
+
+        var uri = Uri.parse(settings.name);
+        if (uri.pathSegments.length == 1) {
+          String id = uri.pathSegments[0];
+          print("Here is id" + id.toString());
+          return MaterialPageRoute(builder: (context) => DetailScreen(cid: id));
+        }
+
+        return MaterialPageRoute(builder: (context) => HomeScreen());
+      },
       theme: ThemeData.dark(),
-      home: FutureBuilder(
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FutureBuilder(
         // Initialize FlutterFire:
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
@@ -72,11 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 onSelected: (value) {
                   if (value == 0) {
                     print('About Us Screen');
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => About(),
-                      ),
+                      '/about',
                     );
                   }
                 },
