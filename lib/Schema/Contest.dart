@@ -1,6 +1,6 @@
 class Contest {
   int minTeamSize, maxTeamSize;
-  String eventName, eventCode, posterUrl;
+  String eventName, eventCode, posterUrl, websiteUrl;
   List addFields;
 
   // Take care for this contrustor where you are using it
@@ -11,6 +11,7 @@ class Contest {
     this.eventCode,
     this.addFields,
     this.posterUrl,
+    this.websiteUrl,
   );
 
   /// Pass the firebase document you got
@@ -26,6 +27,10 @@ class Contest {
     posterUrl = document.data().containsKey('posterUrl')
         ? document.data()['posterUrl']
         : 'https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/bestposters2016-doctorstrange-shipper-700x1023.jpg';
+
+    websiteUrl = document.data().containsKey('websiteUrl')
+        ? document.data()['websiteUrl']
+        : 'https://pnotes.web.app/share?id=-MA1SNDqZrQipZyEG66W';
   }
 
   @override
@@ -41,6 +46,8 @@ class Contest {
         " addField:" +
         addFields.toString() +
         " posterUrl:" +
-        posterUrl;
+        posterUrl +
+        " websiteUrl:" +
+        websiteUrl;
   }
 }
