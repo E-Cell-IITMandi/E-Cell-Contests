@@ -30,10 +30,6 @@ class _RegisterTeamState extends State<RegisterTeam> {
   CollectionReference _registrationsRef;
   DocumentReference _docRef;
 
-  String _teamName = "";
-  String _teamPhone = "";
-  List _membersName = [];
-
   TextEditingController _controllerTeamName = TextEditingController();
   TextEditingController _controllerTeamPhone = TextEditingController();
   List<TextEditingController> _controllerOptionals;
@@ -175,13 +171,36 @@ class _RegisterTeamState extends State<RegisterTeam> {
           )
         ],
       ),
-      body: _buildBody(),
+      body: Center(child: _buildBody()),
     );
+  }
+
+  /// The box decorations for charts and blocks added this for consistency
+  /// Editing only this one will have effect on all
+  /// Add the background [color]
+  BoxDecoration myBoxDecoration(Color color) {
+    var boxDecoration = new BoxDecoration(
+      color: color,
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 20,
+          offset: Offset(5, 5),
+          color: Color(000000).withOpacity(.6),
+          spreadRadius: -5,
+        )
+      ],
+      borderRadius: BorderRadius.all(Radius.circular(40.0)),
+    );
+
+    return boxDecoration;
   }
 
   Widget _buildBody() {
     return SingleChildScrollView(
       child: Container(
+        margin: EdgeInsets.only(top: 12.0),
+        width: 720.0,
+        decoration: myBoxDecoration(Theme.of(context).primaryColor),
         padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         child: Column(
           children: [
@@ -283,7 +302,7 @@ class _RegisterTeamState extends State<RegisterTeam> {
             focusTo: _focusNodes[0],
           ),
           myFormField(
-            "Enter Phone number",
+            "Enter Team Leader WhatsApp Number",
             _controllerTeamPhone,
             focusFrom: _focusNodes[0],
             focusTo: _focusNodes[1],
@@ -366,13 +385,16 @@ class _RegisterTeamState extends State<RegisterTeam> {
     //
 
     for (int i = 0; i < widget.contest.addFields.length; i++) {
-      String key = widget.contest.addFields[i]['key'];
-      String label = widget.contest.addFields[i]['label'];
+      Map thisField = widget.contest.addFields[i];
+      String key = thisField['key'];
+      String label = thisField['label'];
+      bool req = thisField.containsKey('req') ? thisField['req'] : true;
 
       print('creating optional fields');
       list.add(myFormField(
         label,
         _controllerOptionals[i],
+        isEmptyAllowed: !req,
         focusFrom: _focusNodes[focusCount],
         focusTo: _focusNodes[focusCount + 1],
       ));
