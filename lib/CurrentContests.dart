@@ -31,8 +31,13 @@ class _CurrentContestsState extends State<CurrentContests> {
             Container(
               padding: EdgeInsets.only(top: 48.0, bottom: 16.0),
               child: Text(
-                'Ongoing Contests',
-                style: TextStyle(fontSize: 48.0, color: Colors.grey),
+                'Ongoing',
+                style: TextStyle(
+                  fontSize: 48.0,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
             FutureBuilder(
@@ -103,7 +108,12 @@ class _CurrentContestsState extends State<CurrentContests> {
               padding: EdgeInsets.only(top: 96.0, bottom: 16.0),
               child: Text(
                 'Past Contests',
-                style: TextStyle(fontSize: 48.0, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 48.0,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
             FutureBuilder(
@@ -168,7 +178,7 @@ class _CurrentContestsState extends State<CurrentContests> {
           ),
           Container(
             width: 380.0,
-            height: 550.0,
+            height: 520.0,
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: FittedBox(
               fit: BoxFit.fill,
