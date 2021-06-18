@@ -2,7 +2,7 @@
 **This repo is not indicative of any club of IIT Mandi.**
 
 So, do you want to manage the Team Details and Event Details easily? Get started with this project. 
-A new Flutter project.
+**A new Flutter project**. Contribute only if interested to learn flutter.
 
 ## How to use this?
 This Project is based on Flutter and Firestore (Popularly known as FlutterFire). So to run this app on local server, you need flutter to be installed in your system. Remeber to upgarde flutter to channel beta so as to run the webapp. And for android, install the necessary android packages required. Google search get started with flutter.
